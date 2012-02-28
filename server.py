@@ -1,6 +1,6 @@
 from socket import *
 host = 'localhost'
-port = 8008
+port = 8002
 bufSize = 1024
 addr= (host,port)
 
@@ -13,9 +13,16 @@ run=1;
 while 1:
 	clientSock, clientAddr = serverSock.accept()
 	data = clientSock.recv(1024)
-	print data.startswith(passcode+' ')
 	print data
-	run+=1
+	print "check -"
+	if data.startswith("check "):
+		#data=data[4:]
+		print data
+		
+	print "no check";
+	#print data.startswith(passcode)
+	#print data
+	break
 		
 print "lol"
 serverSock.close()
