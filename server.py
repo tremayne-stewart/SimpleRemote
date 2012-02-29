@@ -6,16 +6,17 @@ A simple echo server
 import socket
 from subprocess import call
 host = ''
-port = 8005
+port = 8006
 bufSize = 1024
 addr= (host,port)
 
 passcode='swag6'
 
 serverSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serverSock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 serverSock.bind(addr)
 serverSock.listen(1)
-run=1; 
+run=1
 buttons=('-','Up','-',\
 		 'Left','Space','Right',\
 		 '-','Down','-')
@@ -46,15 +47,16 @@ while 1:
 				if split[0] == "up":
 					keyAction="keyup"
 				elif split[0]=="down":
-					keyAction=="keydown"
+					keyAction="keydown"
 					
 				key = int(split[1]) # parse number from left over string
+				print "running xdotool %s %s" % (keyAction,buttons[key])
 				call(["xdotool",keyAction, buttons[key]]) # make call
-		
+				
 	clientSock.close()
 	#print data.startswteith(passcode)
 	#print data
-	break
+	
 		
 print "closing server"
 

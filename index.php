@@ -56,7 +56,7 @@
 
 </style>
 <script type="text/javascript">
-var passCode;
+var passCode="";
 function submitPasscode()
 {
 	
@@ -74,6 +74,7 @@ function submitPasscode()
 		}
 		
 	});
+	//$("#passCode").fadeOut(200);
 }
 function sendText(control)
 {
@@ -82,7 +83,12 @@ function sendText(control)
 		var input=$("#sendText_input").attr("value");
 		$.post("engine.php",{passcode:passCode,command:"text",content:input}, function(data)
 		{
-			$("#sendText").fadeOut(200);
+			if(data.length>0) alert(data);
+			else
+			{
+				
+				$("#sendText").fadeOut(200);
+			}
 		});
 	}
 	else
@@ -94,14 +100,15 @@ function showSendKey()
 }
 function key(key,down)
 {
-	$.post("engine.php",{passcode:passCode,command:"text",content:input}, function(data)
+	input = (down?"down":"up");
+	$.post("engine.php",{passcode:passCode,command:input,content:key}, function(data)
 	{
-		$("#sendText").fadeOut(200);
+		if(data.length>0) alert(data);
 	});
 }
 $(document).ready(function()
 {	
-	$
+	
 });
 </script>
 </head>
@@ -116,8 +123,8 @@ $(document).ready(function()
 		{
 			if(($r*3+$num[$c])==9)
 				echo "\n\t<div class=\"box ".$pos[$c]."\"  onclick=\"showSendKey()\">".($r*3+$num[$c])."</div>";
-			else
-				echo "\n\t<div class=\"box ".$pos[$c]."\"  onclick=\"key(".($r*3+$num[$c]).",true)\">".($r*3+$num[$c])."</div>";
+			else 
+				echo "\n\t<div class=\"box ".$pos[$c]."\"  ontouchstart=\"javascript:key(".($r*3+$num[$c]).",true)\" ontouchend=\"javascript:key(".($r*3+$num[$c]).",true)\" >".($r*3+$num[$c])."</div>";
 		}
 		
 		echo "\n</div>\n";

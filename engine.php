@@ -10,7 +10,7 @@ if($arg[0]=="")//trying to check passcode
 {
 	
 	//connect and submit passcode
-	$fp = fsockopen( "localhost", 8005, $errno, $errdesc);
+	$fp = fsockopen( "localhost", 8006, $errno, $errdesc);
 	if($fp)
 	{
 		
@@ -29,7 +29,7 @@ else if(strlen($arg[0])>0)
 	if($fp)
 	{
 		
-		fwrite($fp,$arg[0]." ".$arg[1]." ".$arg[3]);
+		fwrite($fp,$arg[0]." ".$arg[1]." ".$arg[2]);
 		fclose($fp);
 	}else{echo "Server Not Running";}
 }
