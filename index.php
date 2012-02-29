@@ -59,12 +59,14 @@
 var passCode;
 function submitPasscode()
 {
+	
 	var input=$("#passCode_input").attr("value");
-	$.post("engine.php",{passcode:"",command:"passcode",content:input}, function(data){
+	$.post("engine.php",{passcode:"",command:"passcode",content:input}, function(data)
+	{
 		if(data=="accepted") // passcode accepted
 		{
 			passCode=input;
-			$("#passCode").fadeOut(100);
+			$("#passCode").fadeOut(200);
 		}
 		else
 		{
@@ -78,8 +80,10 @@ function sendText(control)
 	if(control)
 	{
 		var input=$("#sendText_input").attr("value");
-		//var input=document.getElementById("sendText_input").value
-		alert(input);
+		$.post("engine.php",{passcode:passCode,command:"text",content:input}, function(data)
+		{
+			$("#sendText").fadeOut(200);
+		});
 	}
 	else
 		$("#sendText").fadeOut(100);
@@ -90,11 +94,14 @@ function showSendKey()
 }
 function key(key,down)
 {
-	alert(key+":"+down);
+	$.post("engine.php",{passcode:passCode,command:"text",content:input}, function(data)
+	{
+		$("#sendText").fadeOut(200);
+	});
 }
 $(document).ready(function()
 {	
-	
+	$
 });
 </script>
 </head>
@@ -128,7 +135,7 @@ $(document).ready(function()
 		<h1>Enter PassCode</h1>
 		<p id="passCode_status"></p>
 		<input id="passCode_input" type="text" ><br>
-		<button onclick="submitPasscode()">Send Text</button><br>
+		<button id="passCode_submit" onClick="submitPasscode()">Send Text</button><br>
 	</div>
 </body>
 </html>

@@ -5,28 +5,33 @@ $arg[]=$_POST['passcode'];
 $arg[]=$_POST['command'];
 $arg[]=$_POST['content'];
 
-echo $arg[0]+":"+$arg[1];
+
 if($arg[0]=="")//trying to check passcode
 {
 	
 	//connect and submit passcode
-	$fp = fsockopen( "localhost", 8002, $errno, $errdesc);
+	$fp = fsockopen( "localhost", 8005, $errno, $errdesc);
 	if($fp)
 	{
 		
-		fwrite($fp,"check "+$arg[2]);
+		fwrite($fp,"check ".$arg[2]);
 	
-	 	while (!feof($fp)) {
-	        $ret=$ret.fgets($fp, 128);
-    	}
-		if($ret==0)
+	 	while (!feof($fp)) {$ret=$ret.fgets($fp, 128);} // get acceptance resonse from server
+		if($ret=="0")
 			echo "Incorrect PassCode";
 		else echo "accepted";
+		fclose($fp);
 	}else{echo "Server Not Running";}
 }
 else if(strlen($arg[0])>0)
 {
-	
+	$fp = fsockopen( "localhost", 8005, $errno, $errdesc);
+	if($fp)
+	{
+		
+		fwrite($fp,$arg[0]." ".$arg[1]." ".$arg[3]);
+		fclose($fp);
+	}else{echo "Server Not Running";}
 }
 
 /*
